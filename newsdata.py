@@ -14,6 +14,7 @@ def connect(database_name="news"):
     except:
         print("Can't connect to " + database_name + "database")
 
+
 def printMessage(message):
     '''
     Prints appropriate message
@@ -22,6 +23,7 @@ def printMessage(message):
     print(message)
     print('')
     return
+
 
 def three_articles_of_all_time():
     '''
@@ -50,12 +52,12 @@ def three_articles_of_all_time():
 def all_time_authors():
     '''
         fetch and print the most popular authors of all time
-        based on the sum of the views for all the articles each author has written
+        based on the sum of the views for all the articles
+        each author has written
     '''
     db = connect()[0]
     c = connect()[1]
-    c.execute('''
-        select authors.name, sum(subq.num) as summer
+    c.execute('''select authors.name, sum(subq.num) as summer
         from authors, articles, (
                     select articles.title, count(*) as num
                     from log, articles
@@ -79,21 +81,20 @@ def all_time_authors():
 
 def req_err_stats():
     '''
-        Fetch error statistics for each date and log the specific day
+        fetch error statistics for each date and log the specific day
         when more then 1% of request failed
     '''
     db = connect()[0]
     c = connect()[1]
-    c.execute('''select form_date, round(100.0 * failed_reqs / reqs, 2) as perc
-        from
-            (select  time::timestamp::date as form_date, 
-            sum(case when log.status != '' then 1 else 0 end) as reqs, 
-            sum(case when log.status != '200 OK' then 1 else 0 end) as failed_reqs
-                from log 
-                    group by form_date
-            ) as stats_by_date
-            where ( 100.0 * failed_reqs / reqs ) > 1
-        ;
+    c.execute('''select form_date, round(100.0 * failed_reqs / reqs, 2)
+     as perc from
+        (select  time::timestamp::date as form_date, 
+        sum(case when log.status != '' then 1 else 0 end) as reqs, 
+        sum(case when log.status != '200 OK' then 1 else 0 end) 
+        as failed_reqs from log 
+        group by form_date
+        ) as stats_by_date
+        where ( 100.0 * failed_reqs / reqs ) > 1;
     ''')
 
     days = c.fetchall()

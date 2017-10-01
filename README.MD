@@ -3,7 +3,7 @@
 Reporting tool that prints out reports (in plain text) based on the data from PostgreSQL database. Project is the part of Udacity fullstack nano degree curriculum
 
 ## PostgreSQL database structure ##
-The database contains three tables: articles, authors, and log. The log table contains the contents of a web server request log. The PostgreSQL database was generated with a provided .sql dump, which is not included in the repository due to size limitations, however the \d readout of the tables, along with the output.txt file should provide a good idea of the database content:
+The database contains three tables: articles, authors, and log. The log table contains the contents of a web server request log. The PostgreSQL database was generated with a provided .sql dump, which is not included in the repository due to size limitations, however the readout of the tables, along with the output.txt file should provide a good idea of the database content:
 
     Table "articles"
      Column |           Type           |                       Modifiers

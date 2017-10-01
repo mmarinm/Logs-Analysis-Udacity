@@ -2,7 +2,7 @@
 import psycopg2
 
 
-def connect(database_name="news"):
+def connect(database_name="new"):
     ''' 
     Establish connection with datebase and return db and cursor,
     takes news database as default parametar
@@ -11,8 +11,9 @@ def connect(database_name="news"):
         db = psycopg2.connect("dbname={}".format(database_name))
         cursor = db.cursor()
         return db, cursor
-    except:
-        print("Can't connect to " + database_name + "database")
+    except psycopg2.Error as e:
+        print("Can't connect to " + database_name + " database")
+        print(e)
 
 
 def printMessage(message):
